@@ -4,8 +4,11 @@ import java.util.List;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kuenzWin.weplay.R;
 import com.kuenzWin.weplay.adapter.CommonAdapter;
@@ -18,7 +21,8 @@ import com.kuenzWin.weplay.utils.UIUtils;
 import com.kuenzWin.weplay.view.BaseListView;
 import com.kuenzWin.weplay.view.LoadingPage.LoadResult;
 
-public class SubjectFragment extends BaseFragment {
+public class SubjectFragment extends BaseFragment implements
+		OnItemClickListener {
 
 	private List<SubjectInfo> datas;
 	private SubjectAdapter adapter;
@@ -36,6 +40,7 @@ public class SubjectFragment extends BaseFragment {
 		adapter = new SubjectAdapter(UIUtils.getContext(), datas,
 				R.layout.item_subject);
 		lv.setAdapter(adapter);
+		lv.setOnItemClickListener(this);
 		return lv;
 	}
 
@@ -43,7 +48,7 @@ public class SubjectFragment extends BaseFragment {
 
 		public SubjectAdapter(Context context, List<SubjectInfo> datas,
 				int layoutId) {
-			super(context, datas, layoutId);
+			super(context, datas, layoutId, true);
 		}
 
 		@Override
@@ -56,11 +61,17 @@ public class SubjectFragment extends BaseFragment {
 
 		@Override
 		protected List<SubjectInfo> onLoadMore() {
-
 			SubjectProtocol sp = new SubjectProtocol();
 			return sp.load(datas.size());
 		}
 
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long id) {
+		Toast.makeText(UIUtils.getContext(), datas.get(position).getDes(),
+				Toast.LENGTH_SHORT).show();
 	}
 
 }

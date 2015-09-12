@@ -92,4 +92,11 @@ public class CategoryInfo {
 		this.isTitle = isTitle;
 	}
 
+	@Override
+	public String toString() {
+		return "CategoryInfo [title=" + title + ", url1=" + url1 + ", url2="
+				+ url2 + ", url3=" + url3 + ", name1=" + name1 + ", name2="
+				+ name2 + ", name3=" + name3 + ", isTitle=" + isTitle + "]";
+	}
+
 }

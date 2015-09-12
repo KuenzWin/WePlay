@@ -2,6 +2,7 @@ package com.kuenzWin.weplay.base;
 
 import java.util.List;
 
+import android.content.Context;
 import android.graphics.Bitmap.Config;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,6 +20,7 @@ import com.lidroid.xutils.BitmapUtils;
 
 public abstract class BaseFragment extends Fragment {
 
+	protected Context mContext = UIUtils.getContext();
 	protected LoadingPage mLoadingPage;
 	protected BitmapUtils mBitmapUtils;
 

@@ -11,7 +11,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SearchView.OnQueryTextListener;
 import android.view.KeyEvent;
@@ -38,7 +37,9 @@ public class MainActivity extends BaseActivity implements OnQueryTextListener {
 	private ActionBarDrawerToggle mDrawerToggle;
 
 	private ViewPager mViewPager;
+	// private ImageButton mib;
 	private PagerTabStrip mPagerTabStrip;
+	// private TabPageIndicator mIndicator;
 
 	private FrameLayout fl_menu;
 
@@ -57,28 +58,31 @@ public class MainActivity extends BaseActivity implements OnQueryTextListener {
 		setContentView(R.layout.activity_main);
 
 		mViewPager = (ViewPager) this.findViewById(R.id.vp);
-
+		// mib = (ImageButton) this.findViewById(R.id.ib_news_menu_next_tab);
+		// mIndicator = (TabPageIndicator) this.findViewById(R.id.tpi);
+		// 设置标签下划线颜色
 		mPagerTabStrip = (PagerTabStrip) this
 				.findViewById(R.id.pager_tab_strip);
-		// 设置标签下划线颜色
 		mPagerTabStrip.setTabIndicatorColorResource(R.color.indicatorcolor);
 		mPagerTabStrip.setBackgroundColor(Color.WHITE);
 		mPagerTabStrip.setTextColor(Color.BLACK);
 
 		mViewPager.setAdapter(new MyPagerAdapter(this
 				.getSupportFragmentManager()));
+		// mIndicator.setViewPager(mViewPager);
 		// 给ViewPager注册一个监听器，使得每次切换界面都可以更新fragment的数据
 		mViewPager
 				.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
 					@Override
 					public void onPageSelected(int position) {
 						super.onPageSelected(position);
+						// mIndicator.setCurrentItem(position);
 						BaseFragment bf = FragmentFactoty
 								.createFragment(position);
 						bf.show();
 					}
 				});
-
+		// mib.setOnClickListener(this);
 		fl_menu = (FrameLayout) this.findViewById(R.id.fl_menu);
 		MenuHolder menuHolder = new MenuHolder();
 		fl_menu.addView(menuHolder.initView());
@@ -204,5 +208,11 @@ public class MainActivity extends BaseActivity implements OnQueryTextListener {
 		}
 		return true;
 	}
+
+	// @Override
+	// public void onClick(View v) {
+	// // TODO Auto-generated method stub
+	//
+	// }
 
 }

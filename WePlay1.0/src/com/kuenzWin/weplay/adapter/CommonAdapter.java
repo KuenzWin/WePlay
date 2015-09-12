@@ -18,17 +18,22 @@ public abstract class CommonAdapter<T> extends BaseAdapter {
 	protected List<T> mDatas;
 	protected LayoutInflater mInflater;
 	protected int mlayoutId;
+	protected boolean hasMore;
 
-	public CommonAdapter(Context context, List<T> datas, int layoutId) {
+	public CommonAdapter(Context context, List<T> datas, int layoutId,
+			boolean hasMore) {
 		this.mContext = context;
 		this.mDatas = datas;
 		this.mlayoutId = layoutId;
+		this.hasMore = hasMore;
 		mInflater = LayoutInflater.from(context);
 	}
 
 	@Override
 	public int getCount() {
-		return mDatas.size() + 1;
+		if (hasMore)
+			return mDatas.size() + 1;
+		return mDatas.size();
 	}
 
 	@Override
@@ -43,9 +48,12 @@ public abstract class CommonAdapter<T> extends BaseAdapter {
 
 	@Override
 	public int getItemViewType(int position) {
+		if (!hasMore)
+			// return 0(源码)
+			return super.getItemViewType(position);
 		if (position == mDatas.size())
 			return TYPE_MORE;
-		return TYPE_DATA;
+		return super.getItemViewType(position);
 	}
 
 	@Override
@@ -53,7 +61,6 @@ public abstract class CommonAdapter<T> extends BaseAdapter {
 		return 2;
 	}
 
-	private static final int TYPE_DATA = 0;
 	private static final int TYPE_MORE = 1;
 
 	private MoreHolder mMoreHolder;
@@ -61,7 +68,7 @@ public abstract class CommonAdapter<T> extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		BaseListViewHolder holder = null;
-		if (getItemViewType(position) == TYPE_DATA) {
+		if (getItemViewType(position) == 0) {
 			holder = BaseListViewHolder.get(mContext, convertView, parent,
 					mlayoutId, position);
 			setData(holder, getItem(position));
@@ -119,6 +126,8 @@ public abstract class CommonAdapter<T> extends BaseAdapter {
 	 * 
 	 * @return 请求服务器后得到的数据
 	 */
-	protected abstract List<T> onLoadMore();
+	protected List<T> onLoadMore() {
+		return null;
+	}
 
 }

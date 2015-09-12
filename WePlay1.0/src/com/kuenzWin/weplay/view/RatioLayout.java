@@ -13,50 +13,58 @@ public class RatioLayout extends FrameLayout {
 	}
 
 	public RatioLayout(Context context) {
-		super(context);
+		this(context, null);
 	}
 
 	public RatioLayout(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		// 参数1 命名控件 参数2 属性的名字 参数3 默认的值
+	}
+
+	public RatioLayout(Context context, AttributeSet attrs) {
+		this(context, attrs, 0);
 		float ratio = attrs.getAttributeFloatValue(
 				"http://schemas.android.com/apk/res/com.itheima.googleplay",
 				"ratio", 2.43f);
 		setRatio(ratio);
 	}
 
-	public RatioLayout(Context context, AttributeSet attrs) {
-		this(context, attrs, 0);
-	}
-
-	// 测量当前布局
+	// 测量当前布局,修改测量规则
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		// widthMeasureSpec 宽度的规则 包含了两部分 模式 值
-		int widthMode = MeasureSpec.getMode(widthMeasureSpec); // 模式
-		int widthSize = MeasureSpec.getSize(widthMeasureSpec);// 宽度大小
-		int width = widthSize - getPaddingLeft() - getPaddingRight();// 去掉左右两边的padding
+		// 获取宽度模式
+		int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+		// 得到宽度
+		int widthSize = MeasureSpec.getSize(widthMeasureSpec);
+		// 去除左右内边距，得到真实的宽度
+		widthSize = widthSize - this.getPaddingLeft() - this.getPaddingRight();
 
-		int heightMode = MeasureSpec.getMode(heightMeasureSpec); // 模式
-		int heightSize = MeasureSpec.getSize(heightMeasureSpec);// 高度大小
-		int height = heightSize - getPaddingTop() - getPaddingBottom();// 去掉上下两边的padding
+		// 获取宽度模式
+		int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+		// 得到高度
+		int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+		// 去除上下内边距，得到真实的高度
+		heightSize = heightSize - this.getPaddingTop()
+				- this.getPaddingBottom();
 
+		// 哪个是精确值，就以哪个为基准进行按比例设置
 		if (widthMode == MeasureSpec.EXACTLY
 				&& heightMode != MeasureSpec.EXACTLY) {
-			// 修正一下 高度的值 让高度=宽度/比例
-			height = (int) (width / ratio + 0.5f); // 保证4舍五入
+			// 对高度进行根据宽度的比例设置，+0.5是为了四舍五入
+			heightSize = (int) (widthSize / ratio + 0.5);
 		} else if (widthMode != MeasureSpec.EXACTLY
 				&& heightMode == MeasureSpec.EXACTLY) {
 			// 由于高度是精确的值 ,宽度随着高度的变化而变化
-			width = (int) ((height * ratio) + 0.5f);
+			widthSize = (int) ((heightSize * ratio) + 0.5f);
 		}
-		// 重新制作了新的规则
-		widthMeasureSpec = MeasureSpec.makeMeasureSpec(MeasureSpec.EXACTLY,
-				width + getPaddingLeft() + getPaddingRight());
-		heightMeasureSpec = MeasureSpec.makeMeasureSpec(MeasureSpec.EXACTLY,
-				height + getPaddingTop() + getPaddingBottom());
+
+		// 重新指定测量规则
+		widthMeasureSpec = MeasureSpec.makeMeasureSpec(
+				widthSize + this.getPaddingLeft() + this.getPaddingRight(),
+				MeasureSpec.EXACTLY);
+		heightMeasureSpec = MeasureSpec.makeMeasureSpec(
+				heightSize + this.getPaddingTop() + this.getPaddingBottom(),
+				MeasureSpec.EXACTLY);
 
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 	}
-
 }

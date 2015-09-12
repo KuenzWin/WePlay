@@ -10,16 +10,16 @@ import android.widget.TextView;
 public class BaseListViewHolder {
 
 	private SparseArray<View> mViews;
-	protected int mPosition;
+	public int mPosition;
 	protected View mConvertView;
-	
+
 	protected BaseListViewHolder(Context context, ViewGroup parent, int position) {
 		this.mViews = new SparseArray<View>();
 		this.mPosition = position;
 	}
 
-	protected BaseListViewHolder(Context context, ViewGroup parent, int layoutId,
-			int position) {
+	protected BaseListViewHolder(Context context, ViewGroup parent,
+			int layoutId, int position) {
 		this(context, parent, position);
 		this.mConvertView = LayoutInflater.from(context).inflate(layoutId,
 				parent, false);
@@ -38,7 +38,8 @@ public class BaseListViewHolder {
 		if (null == convertView) {
 			return new BaseListViewHolder(context, parent, layoutId, position);
 		} else {
-			BaseListViewHolder holder = (BaseListViewHolder) convertView.getTag();
+			BaseListViewHolder holder = (BaseListViewHolder) convertView
+					.getTag();
 			holder.mPosition = position;
 			return holder;
 		}
@@ -67,8 +68,7 @@ public class BaseListViewHolder {
 	}
 
 	public BaseListViewHolder setText(int viewId, String text) {
-		TextView tv = (TextView) mConvertView.findViewById(viewId);
-		tv.setText(text);
+		((TextView) getView(viewId)).setText(text);
 		return this;
 	}
 

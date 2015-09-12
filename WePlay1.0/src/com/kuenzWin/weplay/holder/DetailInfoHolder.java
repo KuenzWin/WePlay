@@ -10,7 +10,6 @@ import com.kuenzWin.weplay.R;
 import com.kuenzWin.weplay.base.BaseHolder;
 import com.kuenzWin.weplay.domain.AppInfo;
 import com.kuenzWin.weplay.http.HttpHelper;
-import com.kuenzWin.weplay.utils.LogUtils;
 import com.kuenzWin.weplay.utils.UIUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;

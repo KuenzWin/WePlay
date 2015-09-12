@@ -18,7 +18,7 @@ import com.kuenzWin.weplay.utils.UIUtils;
 public abstract class BaseListAdapter extends CommonAdapter<AppInfo> {
 
 	public BaseListAdapter(Context context, List<AppInfo> datas, int layoutId) {
-		super(context, datas, layoutId);
+		super(context, datas, layoutId, true);
 	}
 
 	@Override
@@ -33,6 +33,5 @@ public abstract class BaseListAdapter extends CommonAdapter<AppInfo> {
 				.formatFileSize(UIUtils.getContext(), info.getSize()));
 		((TextView) holder.getView(R.id.item_bottom)).setText(info.getDes());
 	}
-
 
 }
